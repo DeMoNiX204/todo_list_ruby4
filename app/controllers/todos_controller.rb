@@ -2,7 +2,7 @@ class TodosController < ApplicationController
   before_action :set_todo, only: %i[ show edit update destroy ]
 
   def index
-
+    @todos = Todo.all
     if params[:query].present?
       @todos = @todos.where("title ILIKE ?", "%#{params[:query]}%")
     end
@@ -25,6 +25,9 @@ class TodosController < ApplicationController
 
   def new
     @todo = Todo.new
+  end
+
+  def edit
   end
 
   def create
@@ -65,6 +68,6 @@ class TodosController < ApplicationController
   end
 
   def todo_params
-    params.require(:todo).permit(:title, :description, :completed, :due_date)
+    params.require(:todo).permit(:title, :description, :status, :due_date)
   end
 end
