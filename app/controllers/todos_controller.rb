@@ -32,33 +32,24 @@ class TodosController < ApplicationController
 
   def create
     @todo = Todo.new(todo_params)
-    respond_to do |format|
-      if @todo.save
-        format.html { redirect_to todos_path, notice: "สร้างสำเร็จ" }
-        format.turbo_stream
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
+    if @todo.save
+      redirect_to todos_path, status: :see_other, notice: "สร้างสำเร็จ"
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
-    respond_to do |format|
-      if @todo.update(todo_params)
-        format.html { redirect_to todos_path, notice: "แก้ไขสำเร็จ" }
-        format.turbo_stream
-      else
-          format.html { render :edit, status: :unprocessable_entity }
-      end
+    if @todo.update(todo_params)
+      redirect_to todos_path, status: :see_other, notice: "แก้ไขสำเร็จ"
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @todo.destroy
-    respond_to do |format|
-      format.html { redirect_to todos_url, notice: "ลบสำเร็จ", status: :see_other }
-      format.turbo_stream
-    end
+    redirect_to todos_url, status: :see_other, notice: "ลบสำเร็จ"
   end
 
   private

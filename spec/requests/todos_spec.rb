@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Todos", type: :request do
   let!(:pending_todo) { Todo.create!(title: "Learn Rails", status: "pending", due_date: 1.day.from_now) }
-  let!(:completed_todo) { Todo.create!(title: "Buy milk", status: "pending", due_date: 1.day.from_now) }
+  let!(:completed_todo) { Todo.create!(title: "Buy milk", status: "completed", due_date: 1.day.from_now) }
 
   describe "GET /todos" do
     it "return HTTP success" do
