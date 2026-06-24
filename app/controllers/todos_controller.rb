@@ -1,5 +1,5 @@
 class TodosController < ApplicationController
-  before_action :set_todo, only: %i[ show edit update destroy ]
+  before_action :set_todo, only: %i[ show edit update destroy toggle]
 
   def index
     @todos = Todo.all
@@ -50,6 +50,18 @@ class TodosController < ApplicationController
   def destroy
     @todo.destroy
     redirect_to todos_url, status: :see_other, notice: "ลบสำเร็จ"
+  end
+
+  def toggle
+    if @todo.completed?
+      @todo.pending!
+    else
+      @todo.completed!
+    end
+    respond_to do |format|
+      format.html { redirect_to todos_path, notice: "อัปเดตสถานะสำเร็จ" }
+      format.turbo_stream { render turbo_stream: turbo_stream.replace(@todo) }
+    end
   end
 
   private

@@ -35,4 +35,17 @@ RSpec.describe "Todos", type: :request do
       expect(response).to redirect_to(todos_url)
     end
   end
+
+  describe "PATCH /todos/:id/toggle" do
+    it "toggles status from pending to completed" do
+      patch toggle_todo_path(pending_todo)
+      expect(pending_todo.reload.status).to eq("completed")
+      expect(response).to redirect_to(todos_path)
+    end
+  
+    it "toggles status from completed to pending" do
+        patch toggle_todo_path(completed_todo)
+        expect(completed_todo.reload.status).to eq("pending")
+      end
+  end
 end
